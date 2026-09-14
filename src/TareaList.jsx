@@ -9,10 +9,15 @@ function TareaList() {
   const [tareaEditar, setTareaEditar] = useState(null);
   const [tareaDetalleId, setTareaDetalleId] = useState(null);
   const [tareaAEliminar, setTareaAEliminar] = useState(null);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const itemsPorPagina = 5;
 
   const cargarTareas = () => {
     getAll()
-      .then((data) => setTareas(data))
+      .then((data) => {
+        setTareas(data);
+        setPaginaActual(1);
+      })
       .catch((error) => console.error('Error al obtener tareas:', error));
   };
 
@@ -50,6 +55,10 @@ function TareaList() {
     setMostrarForm(!mostrarForm);
   };
 
+  const totalPaginas = Math.max(1, Math.ceil(tareas.length / itemsPorPagina));
+  const inicio = (paginaActual - 1) * itemsPorPagina;
+  const tareasPaginadas = tareas.slice(inicio, inicio + itemsPorPagina);
+
   return (
     <div>
       <h2>Tareas</h2>
@@ -69,7 +78,7 @@ function TareaList() {
           </tr>
         </thead>
         <tbody>
-          {tareas.map((tarea) => (
+          {tareasPaginadas.map((tarea) => (
             <tr key={tarea.id}>
               <td>{tarea.id}</td>
               <td>{tarea.titulo}</td>
@@ -83,6 +92,22 @@ function TareaList() {
           ))}
         </tbody>
       </table>
+
+      <div style={{ marginTop: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <button
+          disabled={paginaActual === 1}
+          onClick={() => setPaginaActual((p) => p - 1)}
+        >
+          Anterior
+        </button>
+        <span>Página {paginaActual} de {totalPaginas}</span>
+        <button
+          disabled={paginaActual === totalPaginas}
+          onClick={() => setPaginaActual((p) => p + 1)}
+        >
+          Siguiente
+        </button>
+      </div>
 
       {tareaAEliminar && (
         <div style={{

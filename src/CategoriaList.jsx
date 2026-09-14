@@ -8,10 +8,15 @@ function CategoriaList() {
   const [categoriaEditar, setCategoriaEditar] = useState(null);
   const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
   const [categoriaVerId, setCategoriaVerId] = useState(null);
+  const [paginaActual, setPaginaActual] = useState(1);
+  const itemsPorPagina = 5;
 
   const cargarCategorias = () => {
     getAll()
-      .then((data) => setCategorias(data))
+      .then((data) => {
+        setCategorias(data);
+        setPaginaActual(1);
+      })
       .catch((error) => console.error('Error al obtener categorías:', error));
   };
 
@@ -34,6 +39,10 @@ function CategoriaList() {
     }
   };
 
+  const totalPaginas = Math.max(1, Math.ceil(categorias.length / itemsPorPagina));
+  const inicio = (paginaActual - 1) * itemsPorPagina;
+  const categoriasPaginadas = categorias.slice(inicio, inicio + itemsPorPagina);
+
   return (
     <div>
       <h2>Categorías</h2>
@@ -47,7 +56,7 @@ function CategoriaList() {
           </tr>
         </thead>
         <tbody>
-          {categorias.map((categoria) => (
+          {categoriasPaginadas.map((categoria) => (
             <tr key={categoria.id}>
               <td>{categoria.id}</td>
               <td>{categoria.nombre}</td>
@@ -60,6 +69,22 @@ function CategoriaList() {
           ))}
         </tbody>
       </table>
+
+      <div style={{ marginTop: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <button
+          disabled={paginaActual === 1}
+          onClick={() => setPaginaActual((p) => p - 1)}
+        >
+          Anterior
+        </button>
+        <span>Página {paginaActual} de {totalPaginas}</span>
+        <button
+          disabled={paginaActual === totalPaginas}
+          onClick={() => setPaginaActual((p) => p + 1)}
+        >
+          Siguiente
+        </button>
+      </div>
 
       {categoriaAEliminar && (
         <div style={{
