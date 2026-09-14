@@ -5,6 +5,7 @@ import TareaForm from './TareaForm';
 function TareaList() {
   const [tareas, setTareas] = useState([]);
   const [mostrarForm, setMostrarForm] = useState(false);
+  const [tareaEditar, setTareaEditar] = useState(null);
 
   const cargarTareas = () => {
     getAll()
@@ -18,17 +19,28 @@ function TareaList() {
 
   const handleTareaCreada = () => {
     setMostrarForm(false);
+    setTareaEditar(null);
     cargarTareas();
+  };
+
+  const handleEditar = (tarea) => {
+    setTareaEditar(tarea);
+    setMostrarForm(true);
+  };
+
+  const handleNueva = () => {
+    setTareaEditar(null);
+    setMostrarForm(!mostrarForm);
   };
 
   return (
     <div>
       <h2>Tareas</h2>
-      <button onClick={() => setMostrarForm(!mostrarForm)}>
+      <button onClick={handleNueva}>
         {mostrarForm ? 'Cancelar' : 'Nueva Tarea'}
       </button>
 
-      {mostrarForm && <TareaForm onTareaCreada={handleTareaCreada} />}
+      {mostrarForm && <TareaForm tareaEditar={tareaEditar} onTareaCreada={handleTareaCreada} />}
 
       <table border="1">
         <thead>
@@ -36,6 +48,7 @@ function TareaList() {
             <th>ID</th>
             <th>Título</th>
             <th>Estado</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +57,9 @@ function TareaList() {
               <td>{tarea.id}</td>
               <td>{tarea.titulo}</td>
               <td>{tarea.estado ? 'Hecha' : 'Pendiente'}</td>
+              <td>
+                <button onClick={() => handleEditar(tarea)}>Editar</button>
+              </td>
             </tr>
           ))}
         </tbody>
