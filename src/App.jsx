@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { getAll } from './services/tarea.service';
 import CategoriaList from './CategoriaList';
+import EtiquetaList from './EtiquetaList';
 
 function App() {
   useEffect(() => {
@@ -13,6 +14,7 @@ function App() {
     <div>
       <h1>Hola Mundo</h1>
       <CategoriaList />
+      <EtiquetaList />
     </div>
   );
 }
