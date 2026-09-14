@@ -13,3 +13,12 @@ export async function create(datos) {
   });
   return res.json();
 }
+
+export async function update(id, datos) {
+  const res = await fetch(`${API_URL}/categorias/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(datos),
+  });
+  return res.json();
+}

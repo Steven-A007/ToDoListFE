@@ -1,9 +1,15 @@
-import { useState } from 'react';
-import { create } from './services/category.service';
+import { useState, useEffect } from 'react';
+import { create, update } from './services/category.service';
 
-function CategoriaForm({ onCategoriaCreada }) {
+function CategoriaForm({ categoriaEditar, onGuardado }) {
   const [nombre, setNombre] = useState('');
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (categoriaEditar) {
+      setNombre(categoriaEditar.nombre);
+    }
+  }, [categoriaEditar]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,24 +22,28 @@ function CategoriaForm({ onCategoriaCreada }) {
     setError('');
 
     try {
-      await create({ nombre });
+      if (categoriaEditar) {
+        await update(categoriaEditar.id, { nombre });
+      } else {
+        await create({ nombre });
+      }
       setNombre('');
-      if (onCategoriaCreada) onCategoriaCreada();
+      if (onGuardado) onGuardado();
     } catch (err) {
-      console.error('Error al crear categoría:', err);
+      console.error('Error al guardar categoría:', err);
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Nueva Categoría</h3>
+      <h3>{categoriaEditar ? 'Editar Categoría' : 'Nueva Categoría'}</h3>
       <input
         type="text"
         placeholder="Nombre de la categoría"
         value={nombre}
         onChange={(e) => setNombre(e.target.value)}
       />
-      <button type="submit">Crear</button>
+      <button type="submit">{categoriaEditar ? 'Actualizar' : 'Crear'}</button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
     </form>
   );
