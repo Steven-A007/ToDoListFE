@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { getAll } from './services/tarea.service';
+import CategoriaList from './CategoriaList';
 
 function App() {
   useEffect(() => {
     getAll()
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error('Error al obtener tareas:', error);
-      });
+      .then((data) => console.log(data))
+      .catch((error) => console.error('Error al obtener tareas:', error));
   }, []);
 
   return (
-    <h1>Hola Mundo</h1>
+    <div>
+      <h1>Hola Mundo</h1>
+      <CategoriaList />
+    </div>
   );
 }
 
