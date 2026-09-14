@@ -29,3 +29,8 @@ export async function deleteCategoria(id) {
   });
   return res.json();
 }
+
+export async function getOne(id) {
+  const res = await fetch(`${API_URL}/categorias/${id}`);
+  return res.json();
+}

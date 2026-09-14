@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getAll, deleteCategoria } from './services/category.service';
 import CategoriaForm from './CategoriaForm';
+import CategoriaDetalle from './CategoriaDetalle';
 
 function CategoriaList() {
   const [categorias, setCategorias] = useState([]);
   const [categoriaEditar, setCategoriaEditar] = useState(null);
   const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
+  const [categoriaVerId, setCategoriaVerId] = useState(null);
 
   const cargarCategorias = () => {
     getAll()
@@ -50,6 +52,7 @@ function CategoriaList() {
               <td>{categoria.id}</td>
               <td>{categoria.nombre}</td>
               <td>
+                <button onClick={() => setCategoriaVerId(categoria.id)}>Ver</button>
                 <button onClick={() => setCategoriaEditar(categoria)}>Editar</button>
                 <button onClick={() => setCategoriaAEliminar(categoria)}>Eliminar</button>
               </td>
@@ -71,6 +74,8 @@ function CategoriaList() {
           </div>
         </div>
       )}
+
+      <CategoriaDetalle categoriaId={categoriaVerId} onCerrar={() => setCategoriaVerId(null)} />
     </div>
   );
 }
