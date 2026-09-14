@@ -5,6 +5,11 @@ export async function getAll() {
   return res.json();
 }
 
+export async function getOne(id) {
+  const res = await fetch(`${API_URL}/tareas/${id}`);
+  return res.json();
+}
+
 export async function create(datos) {
   const res = await fetch(`${API_URL}/tareas`, {
     method: 'POST',

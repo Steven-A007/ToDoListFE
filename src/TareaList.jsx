@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { getAll } from './services/tarea.service';
 import TareaForm from './TareaForm';
+import TareaDetalle from './TareaDetalle';
 
 function TareaList() {
   const [tareas, setTareas] = useState([]);
   const [mostrarForm, setMostrarForm] = useState(false);
   const [tareaEditar, setTareaEditar] = useState(null);
+  const [tareaDetalleId, setTareaDetalleId] = useState(null);
 
   const cargarTareas = () => {
     getAll()
@@ -26,6 +28,10 @@ function TareaList() {
   const handleEditar = (tarea) => {
     setTareaEditar(tarea);
     setMostrarForm(true);
+  };
+
+  const handleVer = (tarea) => {
+    setTareaDetalleId(tarea.id);
   };
 
   const handleNueva = () => {
@@ -58,12 +64,18 @@ function TareaList() {
               <td>{tarea.titulo}</td>
               <td>{tarea.estado ? 'Hecha' : 'Pendiente'}</td>
               <td>
+                <button onClick={() => handleVer(tarea)}>Ver</button>
                 <button onClick={() => handleEditar(tarea)}>Editar</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <TareaDetalle
+        tareaId={tareaDetalleId}
+        onCerrar={() => setTareaDetalleId(null)}
+      />
     </div>
   );
 }
