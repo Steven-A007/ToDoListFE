@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { getAll } from './services/category.service';
+import { getAll, deleteCategoria } from './services/category.service';
 import CategoriaForm from './CategoriaForm';
 
 function CategoriaList() {
   const [categorias, setCategorias] = useState([]);
   const [categoriaEditar, setCategoriaEditar] = useState(null);
+  const [categoriaAEliminar, setCategoriaAEliminar] = useState(null);
 
   const cargarCategorias = () => {
     getAll()
@@ -19,6 +20,16 @@ function CategoriaList() {
   const handleGuardado = () => {
     setCategoriaEditar(null);
     cargarCategorias();
+  };
+
+  const confirmarEliminar = async () => {
+    try {
+      await deleteCategoria(categoriaAEliminar.id);
+      setCategoriaAEliminar(null);
+      cargarCategorias();
+    } catch (err) {
+      console.error('Error al eliminar categoría:', err);
+    }
   };
 
   return (
@@ -40,11 +51,26 @@ function CategoriaList() {
               <td>{categoria.nombre}</td>
               <td>
                 <button onClick={() => setCategoriaEditar(categoria)}>Editar</button>
+                <button onClick={() => setCategoriaAEliminar(categoria)}>Eliminar</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {categoriaAEliminar && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{ background: '#222', padding: '20px', borderRadius: '8px' }}>
+            <p>¿Seguro que quieres eliminar "{categoriaAEliminar.nombre}"?</p>
+            <button onClick={confirmarEliminar}>Sí, eliminar</button>
+            <button onClick={() => setCategoriaAEliminar(null)}>Cancelar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

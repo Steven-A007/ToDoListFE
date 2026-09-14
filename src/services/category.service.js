@@ -22,3 +22,10 @@ export async function update(id, datos) {
   });
   return res.json();
 }
+
+export async function deleteCategoria(id) {
+  const res = await fetch(`${API_URL}/categorias/${id}`, {
+    method: 'DELETE',
+  });
+  return res.json();
+}
