@@ -44,33 +44,38 @@ function EtiquetaList() {
   const etiquetasPaginadas = etiquetas.slice(inicio, inicio + itemsPorPagina);
 
   return (
-    <div>
-      <h2>Etiquetas</h2>
+    <section className="section-card">
+      <div className="section-header">
+        <h2>Etiquetas</h2>
+        <span className="section-count">{etiquetas.length} en total</span>
+      </div>
       <EtiquetaForm etiquetaEditar={etiquetaEditar} onGuardado={handleGuardado} />
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {etiquetasPaginadas.map((etiqueta) => (
-            <tr key={etiqueta.id}>
-              <td>{etiqueta.id}</td>
-              <td>{etiqueta.nombre}</td>
-              <td>
-                <button onClick={() => setEtiquetaVerId(etiqueta.id)}>Ver</button>
-                <button onClick={() => setEtiquetaEditar(etiqueta)}>Editar</button>
-                <button onClick={() => setEtiquetaAEliminar(etiqueta)}>Eliminar</button>
-              </td>
+      <div className="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {etiquetasPaginadas.map((etiqueta) => (
+              <tr key={etiqueta.id}>
+                <td>{etiqueta.id}</td>
+                <td>{etiqueta.nombre}</td>
+                <td>
+                  <button onClick={() => setEtiquetaVerId(etiqueta.id)}>Ver</button>
+                  <button onClick={() => setEtiquetaEditar(etiqueta)}>Editar</button>
+                  <button onClick={() => setEtiquetaAEliminar(etiqueta)}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <div style={{ marginTop: '10px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <div className="pagination">
         <button
           disabled={paginaActual === 1}
           onClick={() => setPaginaActual((p) => p - 1)}
@@ -87,21 +92,20 @@ function EtiquetaList() {
       </div>
 
       {etiquetaAEliminar && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'
-        }}>
-          <div style={{ background: '#222', padding: '20px', borderRadius: '8px' }}>
+        <div className="modal-overlay">
+          <div className="modal-card">
+            <h3>Eliminar etiqueta</h3>
             <p>¿Seguro que quieres eliminar "{etiquetaAEliminar.nombre}"?</p>
-            <button onClick={confirmarEliminar}>Sí, eliminar</button>
-            <button onClick={() => setEtiquetaAEliminar(null)}>Cancelar</button>
+            <div className="modal-actions">
+              <button onClick={confirmarEliminar}>Sí, eliminar</button>
+              <button onClick={() => setEtiquetaAEliminar(null)}>Cancelar</button>
+            </div>
           </div>
         </div>
       )}
 
       <EtiquetaDetalle etiquetaId={etiquetaVerId} onCerrar={() => setEtiquetaVerId(null)} />
-    </div>
+    </section>
   );
 }
 

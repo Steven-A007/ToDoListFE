@@ -44,7 +44,7 @@ function CategoriaForm({ categoriaEditar, onGuardado }) {
         onChange={(e) => setNombre(e.target.value)}
       />
       <button type="submit">{categoriaEditar ? 'Actualizar' : 'Crear'}</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="error-text">{error}</p>}
     </form>
   );
 }

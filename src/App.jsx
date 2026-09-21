@@ -34,11 +34,14 @@ function App() {
   }
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Hola Mundo</h1>
+    <div className="app-shell">
+      <header className="app-header">
+        <div>
+          <p className="eyebrow">Tu espacio de trabajo</p>
+          <h1>Mis tareas</h1>
+        </div>
         <button onClick={handleLogout}>Cerrar sesión</button>
-      </div>
+      </header>
       <TareaList />
       <CategoriaList />
       <EtiquetaList />
