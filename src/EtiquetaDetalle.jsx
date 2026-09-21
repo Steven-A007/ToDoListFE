@@ -19,14 +19,10 @@ function EtiquetaDetalle({ etiquetaId, onCerrar }) {
   if (!etiquetaId) return null;
 
   return (
-    <div style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: 'rgba(0,0,0,0.6)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center'
-    }}>
-      <div style={{ background: '#222', padding: '20px', borderRadius: '8px', minWidth: '250px' }}>
-        <h3>Detalle de Etiqueta</h3>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="modal-overlay">
+      <div className="modal-card">
+        <h3>Detalle de etiqueta</h3>
+        {error && <p className="error-text">{error}</p>}
         {etiqueta ? (
           <>
             <p><strong>ID:</strong> {etiqueta.id}</p>
@@ -35,7 +31,9 @@ function EtiquetaDetalle({ etiquetaId, onCerrar }) {
         ) : (
           !error && <p>Cargando...</p>
         )}
-        <button onClick={onCerrar}>Cerrar</button>
+        <div className="modal-actions">
+          <button onClick={onCerrar}>Cerrar</button>
+        </div>
       </div>
     </div>
   );

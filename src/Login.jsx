@@ -29,29 +29,33 @@ function Login({ onLoginExitoso }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Iniciar sesión</h2>
+    <div className="login-shell">
+      <div className="login-card">
+        <form onSubmit={handleSubmit}>
+          <h2>Iniciar sesión</h2>
 
-      <input
-        type="text"
-        placeholder="Usuario"
-        value={usuario}
-        onChange={(e) => setUsuario(e.target.value)}
-      />
+          <input
+            type="text"
+            placeholder="Usuario"
+            value={usuario}
+            onChange={(e) => setUsuario(e.target.value)}
+          />
 
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={contrasena}
-        onChange={(e) => setContrasena(e.target.value)}
-      />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={contrasena}
+            onChange={(e) => setContrasena(e.target.value)}
+          />
 
-      <button type="submit" disabled={cargando}>
-        {cargando ? 'Ingresando...' : 'Ingresar'}
-      </button>
+          <button type="submit" disabled={cargando}>
+            {cargando ? 'Ingresando...' : 'Ingresar'}
+          </button>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
+          {error && <p className="error-text">{error}</p>}
+        </form>
+      </div>
+    </div>
   );
 }
 

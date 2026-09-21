@@ -120,7 +120,7 @@ function TareaForm({ tareaEditar, onTareaCreada }) {
       </label>
 
       <button type="submit">{tareaEditar ? 'Actualizar' : 'Crear Tarea'}</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className="error-text">{error}</p>}
     </form>
   );
 }
